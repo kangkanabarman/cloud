@@ -1,6 +1,10 @@
 # MediCloud — Cloud-Based Hospital Management System (HMS)
 ### Academic Cloud Computing FT-III Case Study & Prototype
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/kangkanabarman/cloud)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/kangkanabarman/cloud)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/kangkanabarman/cloud)
+
 > [!IMPORTANT]
 > **Academic Safety & Compliance Notice:**
 > - **Educational Prototype Only:** This application is designed strictly as an academic case study for **Cloud Computing FT-III**. It must not be presented as a production-ready clinical system.

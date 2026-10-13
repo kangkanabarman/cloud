@@ -26,8 +26,14 @@ const config = {
   // Database Configuration
   db: {
     type: process.env.DATABASE_TYPE || 'sqlite',
-    path: path.resolve(process.cwd(), process.env.DATABASE_PATH || './database/medicloud.sqlite'),
-    backupDir: path.resolve(process.cwd(), process.env.BACKUP_DIRECTORY || './data/backups')
+    path: path.resolve(
+      process.cwd(),
+      process.env.DATABASE_PATH || (process.env.VERCEL ? '/tmp/medicloud.sqlite' : './database/medicloud.sqlite')
+    ),
+    backupDir: path.resolve(
+      process.cwd(),
+      process.env.BACKUP_DIRECTORY || (process.env.VERCEL ? '/tmp/backups' : './data/backups')
+    )
   },
 
   // Proposed AWS Cloud Architecture Metadata (Academic Prototype Context)

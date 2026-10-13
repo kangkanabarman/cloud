@@ -44,12 +44,12 @@ const API = {
     }
 
     try {
-      const response = await fetch(endpoint, config);
+      const response = await fetch(url, config);
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
         // Special case: 401 Unauthorized redirect to login if not already on login
-        if (response.status === 401 && !endpoint.includes('/api/auth/login')) {
+        if (response.status === 401 && !url.includes('/api/auth/login')) {
           if (window.Router && window.Router.currentRoute !== 'login') {
             window.Router.navigate('login');
           }

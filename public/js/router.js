@@ -26,7 +26,12 @@ const Router = {
   },
 
   navigate(route) {
-    window.location.hash = route;
+    const targetHash = `#${route}`;
+    if (window.location.hash === targetHash) {
+      this.handleRoute();
+    } else {
+      window.location.hash = route;
+    }
   },
 
   async handleRoute() {
@@ -46,6 +51,15 @@ const Router = {
     if (route === 'login') {
       this.renderLogin();
       return;
+    }
+
+    // Restore topbar and sidebar when transitioning out of login view
+    const sidebar = document.getElementById('sidebar');
+    const topbar = document.querySelector('.app-topbar');
+    if (sidebar) sidebar.style.display = '';
+    if (topbar) topbar.style.display = '';
+    if (Auth.user) {
+      Auth.updateUI();
     }
 
     const routeConfig = this.routes[route] || this.routes.dashboard;
@@ -97,19 +111,19 @@ const Router = {
             <div class="demo-account-pills">
               <h4>⚡ Rapid Demo Role Switcher (1-Click Login)</h4>
               <div class="role-quick-btn-grid">
-                <button class="btn-demo-pill" onclick="handleQuickRoleLogin('admin@medicloud.local', 'AdminPassword123!')">
+                <button type="button" class="btn-demo-pill" onclick="handleQuickRoleLogin('admin@medicloud.local', 'AdminPassword123!')">
                   <strong>Administrator</strong>
                   <span>Full governance, users & audit</span>
                 </button>
-                <button class="btn-demo-pill" onclick="handleQuickRoleLogin('dr.chen@medicloud.local', 'DoctorPassword123!')">
+                <button type="button" class="btn-demo-pill" onclick="handleQuickRoleLogin('dr.chen@medicloud.local', 'DoctorPassword123!')">
                   <strong>Dr. Samantha Chen</strong>
                   <span>Cardiologist (Clinical access)</span>
                 </button>
-                <button class="btn-demo-pill" onclick="handleQuickRoleLogin('dr.patel@medicloud.local', 'DoctorPassword123!')">
+                <button type="button" class="btn-demo-pill" onclick="handleQuickRoleLogin('dr.patel@medicloud.local', 'DoctorPassword123!')">
                   <strong>Dr. Rajesh Patel</strong>
                   <span>Neurologist (Clinical access)</span>
                 </button>
-                <button class="btn-demo-pill" onclick="handleQuickRoleLogin('receptionist@medicloud.local', 'ReceptionPassword123!')">
+                <button type="button" class="btn-demo-pill" onclick="handleQuickRoleLogin('receptionist@medicloud.local', 'ReceptionPassword123!')">
                   <strong>Front-Desk Receptionist</strong>
                   <span>Patients & appointments (No notes)</span>
                 </button>
@@ -117,7 +131,7 @@ const Router = {
             </div>
 
             <!-- Standard Login Form -->
-            <form onsubmit="event.preventDefault(); Router.handleLoginForm();">
+            <form id="login-form" onsubmit="event.preventDefault(); Router.handleLoginForm(event); return false;">
               <div class="form-group">
                 <label class="form-label">Email Address</label>
                 <input
@@ -127,6 +141,7 @@ const Router = {
                   required
                   placeholder="admin@medicloud.local"
                   value="admin@medicloud.local"
+                  autocomplete="username"
                 >
               </div>
 
@@ -139,11 +154,12 @@ const Router = {
                   required
                   placeholder="••••••••"
                   value="AdminPassword123!"
+                  autocomplete="current-password"
                 >
               </div>
 
               <div style="margin-bottom: 20px;">
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <button type="button" id="btn-login-submit" class="btn btn-primary" style="width: 100%;" onclick="Router.handleLoginForm(event);">
                   Sign In to MediCloud
                 </button>
               </div>
@@ -159,13 +175,23 @@ const Router = {
     `;
   },
 
-  async handleLoginForm() {
-    const email = document.getElementById('login-email')?.value;
+  async handleLoginForm(event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    const email = document.getElementById('login-email')?.value?.trim();
     const password = document.getElementById('login-password')?.value;
 
     if (!email || !password) {
       showToast('Please enter both email and password.', 'warning');
-      return;
+      return false;
+    }
+
+    const btn = document.getElementById('btn-login-submit');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
     }
 
     try {
@@ -173,6 +199,12 @@ const Router = {
       this.navigate('dashboard');
     } catch (e) {
       // Toast already shown
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Sign In to MediCloud';
+      }
     }
+    return false;
   }
 };

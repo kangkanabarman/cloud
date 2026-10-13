@@ -144,11 +144,16 @@ function closeRoleModal() {
 async function handleQuickRoleLogin(email, password) {
   closeRoleModal();
   try {
+    const emailEl = document.getElementById('login-email');
+    const passEl = document.getElementById('login-password');
+    if (emailEl) emailEl.value = email;
+    if (passEl) passEl.value = password;
+
     await Auth.login(email, password);
     if (window.Router) {
       window.Router.navigate('dashboard');
     }
   } catch (e) {
-    // Error toast already displayed
+    console.error('Quick role login error:', e);
   }
 }

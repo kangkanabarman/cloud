@@ -1,0 +1,28 @@
+services:
+  medicloud-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medicloud-hospital-system
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - APP_NAME=MediCloud-HMS-Production
+      - SESSION_SECRET=medicloud_production_secure_secret_key_change_me_987654321
+      - SESSION_MAX_AGE_MS=86400000
+      - DATABASE_TYPE=sqlite
+      - DATABASE_PATH=/app/database/medicloud.sqlite
+      - BACKUP_DIRECTORY=/app/data/backups
+      - TRUST_PROXY=true
+    volumes:
+      - medicloud_db:/app/database
+      - medicloud_backups:/app/data/backups
+
+volumes:
+  medicloud_db:
+    name: medicloud_db_volume
+  medicloud_backups:
+    name: medicloud_backups_volume

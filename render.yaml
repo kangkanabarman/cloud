@@ -1,0 +1,33 @@
+# ==============================================================================
+# MediCloud — Render Infrastructure Blueprint (render.yaml)
+# Provides 1-Click Zero-Configuration Deployment for MediCloud Full-Stack App
+# ==============================================================================
+
+services:
+  - type: web
+    name: medicloud-hospital-system
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.14.0
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SESSION_MAX_AGE_MS
+        value: 86400000
+      - key: DATABASE_TYPE
+        value: sqlite
+      - key: DATABASE_PATH
+        value: ./database/medicloud.sqlite
+      - key: BACKUP_DIRECTORY
+        value: ./data/backups
+      - key: TRUST_PROXY
+        value: "true"
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 150

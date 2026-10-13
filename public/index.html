@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediCloud — Cloud-Based Hospital Management System</title>
+  <meta name="description" content="Academic Cloud Computing FT-III Case Study: Secure, scalable, and resilient cloud-based hospital management prototype with RBAC, encrypted backups, and monitoring.">
+  <meta name="medicloud-api-base" content="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <!-- Main Application Wrapper -->
+  <div id="app" class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="brand-icon">🏥</div>
+        <div class="brand-info">
+          <h2>MediCloud</h2>
+          <div class="brand-tag">Cloud HMS Prototype</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Clinical & Operations</div>
+        <div class="nav-item" data-route="dashboard">
+          <span class="icon">📊</span>
+          <span>Dashboard</span>
+        </div>
+        <div class="nav-item" data-route="patients">
+          <span class="icon">👥</span>
+          <span>Patients</span>
+        </div>
+        <div class="nav-item" data-route="doctors">
+          <span class="icon">🩺</span>
+          <span>Doctors</span>
+        </div>
+        <div class="nav-item" data-route="appointments">
+          <span class="icon">📅</span>
+          <span>Appointments</span>
+        </div>
+        <div class="nav-item" data-route="medical-records">
+          <span class="icon">📋</span>
+          <span>Medical Records</span>
+          <span class="badge" id="badge-records-lock">🔒</span>
+        </div>
+
+        <div class="nav-section-label">Governance & Security</div>
+        <div class="nav-item" data-route="users" id="nav-item-users">
+          <span class="icon">🛡️</span>
+          <span>Users & Roles</span>
+        </div>
+        <div class="nav-item" data-route="audit-logs" id="nav-item-audit">
+          <span class="icon">📜</span>
+          <span>Audit Logs</span>
+        </div>
+        <div class="nav-item" data-route="backup" id="nav-item-backup">
+          <span class="icon">💾</span>
+          <span>Backup & Recovery</span>
+        </div>
+
+        <div class="nav-section-label">Cloud Architecture & Labs</div>
+        <div class="nav-item" data-route="cloud-arch">
+          <span class="icon">☁️</span>
+          <span>Cloud Architecture</span>
+        </div>
+        <div class="nav-item" data-route="monitoring">
+          <span class="icon">📈</span>
+          <span>Security & Monitoring</span>
+        </div>
+        <div class="nav-item" data-route="evaluation">
+          <span class="icon">🧪</span>
+          <span>Technical Evaluation</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="user-avatar" id="sidebar-user-avatar">?</div>
+          <div class="user-meta">
+            <div class="user-name" id="sidebar-user-name">Loading...</div>
+            <span class="user-role-badge" id="sidebar-user-role">GUEST</span>
+          </div>
+          <button class="btn-sidebar-logout" id="btn-logout" title="Sign Out">🚪</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <!-- Top Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="btn-menu-toggle" id="btn-menu-toggle">☰</button>
+          <div class="page-title-wrap">
+            <h1 id="page-title">Hospital Management Dashboard</h1>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="system-status-indicator" id="system-status-pill">
+            <span class="status-dot-pulse"></span>
+            <span id="system-status-text">System Healthy</span>
+          </div>
+          <div class="academic-badge">FT-III Cloud Lab</div>
+          <button class="btn-role-switch" id="btn-switch-role">
+            <span>🔄</span> Switch Demo Role
+          </button>
+        </div>
+      </header>
+
+      <!-- Dynamic Page Container -->
+      <div class="content-body" id="app-content">
+        <!-- Rendered dynamically by view components -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Role Switcher Quick Modal -->
+  <div class="modal-overlay" id="role-modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>🔄 Select Fictional Demo Role</h3>
+        <button class="modal-close" onclick="closeRoleModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 16px; font-size: 0.88rem; color: var(--color-text-secondary);">
+          Instantly switch between fictional accounts to observe Role-Based Access Control (RBAC), privilege separation, and medical-record restrictions in real time:
+        </p>
+        <div class="role-quick-btn-grid" id="modal-role-buttons">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="closeRoleModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generic Modal (Used for Patient Registration, Demographics, Appointments, Clinical Notes) -->
+  <div class="modal-overlay" id="generic-modal">
+    <div class="modal-container" id="generic-modal-container">
+      <div class="modal-header">
+        <h3 id="generic-modal-title">Modal Title</h3>
+        <button class="modal-close" onclick="closeGenericModal()">✕</button>
+      </div>
+      <div class="modal-body" id="generic-modal-body">
+        <!-- Content injected dynamically -->
+      </div>
+      <div class="modal-footer" id="generic-modal-footer">
+        <!-- Buttons injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/views/dashboardView.js"></script>
+  <script src="/js/views/patientsView.js"></script>
+  <script src="/js/views/doctorsView.js"></script>
+  <script src="/js/views/appointmentsView.js"></script>
+  <script src="/js/views/medicalRecordsView.js"></script>
+  <script src="/js/views/usersView.js"></script>
+  <script src="/js/views/auditView.js"></script>
+  <script src="/js/views/backupView.js"></script>
+  <script src="/js/views/cloudArchView.js"></script>
+  <script src="/js/views/monitoringView.js"></script>
+  <script src="/js/views/evaluationView.js"></script>
+  <script src="/js/router.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

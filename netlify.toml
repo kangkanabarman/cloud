@@ -1,0 +1,20 @@
+# ==============================================================================
+# MediCloud — Netlify Deployment Configuration (netlify.toml)
+# Hosts frontend on Netlify CDN with transparent API proxying to backend
+# ==============================================================================
+
+[build]
+  publish = "public"
+
+# Proxy API traffic to deployed backend server
+[[redirects]]
+  from = "/api/*"
+  to = "https://medicloud-hospital-system.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# SPA fallback for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

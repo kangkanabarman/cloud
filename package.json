@@ -1,0 +1,45 @@
+{
+  "name": "medicloud-hospital-management",
+  "version": "1.0.0",
+  "description": "MediCloud — Cloud-Based Hospital Management System (Academic Cloud Computing FT-III Case Study)",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "node scripts/init-db.js",
+    "init-db": "node scripts/init-db.js",
+    "test": "node --test tests/**/*.test.js",
+    "migrate:mysql": "node scripts/migrate-to-mysql.js",
+    "generate:ppt": "node scripts/generate-ppt.js",
+    "package": "node scripts/package-bundle.js"
+  },
+  "keywords": [
+    "cloud-computing",
+    "hospital-management-system",
+    "security",
+    "rbac",
+    "aws-rds",
+    "audit-logging",
+    "backups-and-recovery",
+    "academic-case-study"
+  ],
+  "author": "MediCloud Project Team",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "pptxgenjs": "^4.0.1"
+  },
+  "devDependencies": {
+    "supertest": "^7.0.0"
+  }
+}
